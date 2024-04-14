@@ -10,6 +10,7 @@ import org.mockito.*;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
+@ActiveProfiles("local")
 public class OAuth2LoginSuccessHandlerTest {
     @Mock
     private UserService userService;
