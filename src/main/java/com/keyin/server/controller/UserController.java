@@ -1,25 +1,21 @@
 package com.keyin.server.controller;
 
-import com.keyin.server.entity.User;
-import com.keyin.server.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.keyin.server.entity.UserRole;
+import com.keyin.server.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private AuthService authService;
+    private final UserService userService;
 
-    @PostMapping("/sign-up")
-    public User signUp(@RequestBody User user) {
-        return authService.signUp(user.getUsername(), user.getPassword());
-    }
-
-    @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return authService.login(user.getUsername(), user.getPassword());
+    @PostMapping("/user/{email}")
+    public void changeToAdmin(@PathVariable String email) {
+        userService.findByEmail(email).ifPresent(userEntity -> {
+            userEntity.setRole(UserRole.ADMIN);
+            userService.save(userEntity);
+        });
     }
 }
